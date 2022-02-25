@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">臺北市立動物園</string>
+    <string name="listEmpty">no data</string>
+    <string name="visit">visit</string>
+    <string name="titlePavilion">館區簡介</string>
+    <string name="detailCategory">分區: %s</string>
+    <string name="detailGeo">Geo: %s</string>
+    <string name="detailAlsoKnown">又名: %s</string>
+    <string name="detailLocation">所在館區: %s</string>
+    <string name="detailApplication">功能與用途: \n%s</string>
+</resources>
