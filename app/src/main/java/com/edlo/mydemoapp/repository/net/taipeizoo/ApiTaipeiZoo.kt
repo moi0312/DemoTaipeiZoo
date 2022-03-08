@@ -1,8 +1,9 @@
 package com.edlo.mydemoapp.repository.net.taipeizoo
 
+import com.edlo.mydemoapp.repository.net.ApiResult
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
-import kotlinx.coroutines.Deferred
+import com.edlo.mydemoapp.repository.net.taipeizoo.data.TPZBaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -18,8 +19,8 @@ object ApiTaipeiZoo {
 interface ApiTaipeiZooService {
 
     @GET(ApiTaipeiZoo.GET_PLANT_INFO)
-    fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): Deferred<TPZBaseResponse<List<PlantData>>>?
+    suspend fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): ApiResult<TPZBaseResponse<List<PlantData>>, Error>
 
     @GET(ApiTaipeiZoo.GET_PAVILION_INTRO)
-    fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): Deferred<TPZBaseResponse<List<PavilionData>>>?
+    suspend fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): ApiResult<TPZBaseResponse<List<PavilionData>>, Error>
 }

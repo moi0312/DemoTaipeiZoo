@@ -49,7 +49,7 @@ class TaipeiZooViewModel @Inject constructor() : BaseViewModel() {
     fun getPlants(): LiveData<ArrayList<PlantData>> { return plants }
 
     fun listPavilions(forceReload: Boolean = false) {
-        if(!forceReload || (pavilions.value != null && pavilions.value!!.size>0)) {
+        if (!forceReload && (pavilions.value != null && pavilions.value!!.size>0)) {
             viewModelScope.launch {
                 postPavilionsFromLocal()
             }
@@ -58,28 +58,32 @@ class TaipeiZooViewModel @Inject constructor() : BaseViewModel() {
         onLoading.onNext(true)
         viewModelScope.launch {
             var dao = taipeiZooDB.taipeiZooDao()
-            val apiResult = apiTaipeiZooHelper.listPavilions()
-            when (apiResult) {
+            when (val apiResult = apiTaipeiZooHelper.listPavilions()) {
                 is ApiResult.Success -> {
-                    val baseResponse = apiResult.value?.result
-                    baseResponse?.results?.let { pavilions ->
-                        dao.insertAllPavilions(pavilions)
-                        postPavilionsFromLocal()
-                    }
+                    val baseResponse = apiResult.body.result
+                    val pavilions = baseResponse.results
+                    dao.insertAllPavilions(pavilions)
+                    postPavilionsFromLocal()
                 }
                 is ApiResult.NetworkError -> {
                     postPavilionsFromLocal()
                 }
+                is ApiResult.ApiError -> {
+                    onLoading.onNext(false)
+                    Log.e(msg = "listData fail: ApiError -> code: ${apiResult.code}, ${apiResult.body}" )
+                }
                 is ApiResult.GenericError -> {
                     onLoading.onNext(false)
-                    Log.e(msg = "listData fail: GenericError -> code${apiResult.code} error: ${apiResult.error}" )
+                    apiResult.error?.let {
+                        Log.e(msg = "listData fail: GenericError -> ${it.message}" )
+                    }
                 }
             }
         }
     }
 
     fun listPlants(forceReload: Boolean = false) {
-        if(!forceReload || (plants.value != null && plants.value!!.size>0)) {
+        if(!forceReload && (plants.value != null && plants.value!!.size>0)) {
             viewModelScope.launch {
                 postPlantsFromLocal()
             }
@@ -88,21 +92,24 @@ class TaipeiZooViewModel @Inject constructor() : BaseViewModel() {
         onLoading.onNext(true)
         viewModelScope.launch {
             var dao = taipeiZooDB.taipeiZooDao()
-            val apiResult = apiTaipeiZooHelper.listPlants()
-            when (apiResult) {
+            when (val apiResult = apiTaipeiZooHelper.listPlants()) {
                 is ApiResult.Success -> {
-                    val baseResponse = apiResult.value?.result
-                    baseResponse?.results?.let { plants ->
-                        dao.insertAllPlants(plants)
-                        postPlantsFromLocal()
-                    }
+                    val baseResponse = apiResult.body.result
+                    dao.insertAllPlants(baseResponse.results)
+                    postPlantsFromLocal()
                 }
                 is ApiResult.NetworkError -> {
                     postPlantsFromLocal()
                 }
+                is ApiResult.ApiError -> {
+                    onLoading.onNext(false)
+                    Log.e(msg = "listData fail: ApiError -> code: ${apiResult.code}, ${apiResult.body}" )
+                }
                 is ApiResult.GenericError -> {
                     onLoading.onNext(false)
-                    Log.e(msg = "listData fail: GenericError -> code${apiResult.code} error: ${apiResult.error}" )
+                    apiResult.error?.let {
+                        Log.e(msg = "listData fail: GenericError -> ${it.message}" )
+                    }
                 }
             }
         }
