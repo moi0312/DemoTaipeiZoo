@@ -48,11 +48,11 @@ class ApiTaipeiZooHelper @Inject constructor() {
         service = retrofit.create(ApiTaipeiZooService::class.java)
     }
 
-    suspend fun listPavilions(): ApiResult<TPZBaseResponse<List<PavilionData>>, Error> {
+    suspend fun listPavilions(): TPZResponse<List<PavilionData>> {
         return service.listPavilions()
     }
 
-    suspend fun listPlants(): ApiResult<TPZBaseResponse<List<PlantData>>, Error> {
+    suspend fun listPlants(): TPZResponse<List<PlantData>> {
         return service.listPlants()
     }
 }
