@@ -13,6 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Singleton
 
+typealias TPZResponse<R> = ApiResult<TPZBaseResponse<R>, Error>
+
 @Singleton
 class ApiTaipeiZooHelper @Inject constructor() {
 

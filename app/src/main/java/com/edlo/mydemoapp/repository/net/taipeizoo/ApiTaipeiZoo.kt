@@ -19,8 +19,8 @@ object ApiTaipeiZoo {
 interface ApiTaipeiZooService {
 
     @GET(ApiTaipeiZoo.GET_PLANT_INFO)
-    suspend fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): ApiResult<TPZBaseResponse<List<PlantData>>, Error>
+    suspend fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZResponse<List<PlantData>>
 
     @GET(ApiTaipeiZoo.GET_PAVILION_INTRO)
-    suspend fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): ApiResult<TPZBaseResponse<List<PavilionData>>, Error>
+    suspend fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZResponse<List<PavilionData>>
 }
