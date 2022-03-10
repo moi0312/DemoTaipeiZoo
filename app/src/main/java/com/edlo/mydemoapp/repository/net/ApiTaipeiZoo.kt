@@ -1,9 +1,8 @@
 package com.edlo.mydemoapp.repository.net.taipeizoo
 
-import com.edlo.mydemoapp.repository.net.ApiResult
+import com.edlo.mydemoapp.repository.TPZApiResponse
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.TPZBaseResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,8 +18,8 @@ object ApiTaipeiZoo {
 interface ApiTaipeiZooService {
 
     @GET(ApiTaipeiZoo.GET_PLANT_INFO)
-    suspend fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZResponse<List<PlantData>>
+    suspend fun listPlants(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZApiResponse<List<PlantData>>
 
     @GET(ApiTaipeiZoo.GET_PAVILION_INTRO)
-    suspend fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZResponse<List<PavilionData>>
+    suspend fun listPavilions(@Query("limit") limit: Int? = null, @Query("offset") offset: Int? = null): TPZApiResponse<List<PavilionData>>
 }

@@ -3,6 +3,7 @@ package com.edlo.mydemoapp.di
 import android.content.Context
 import com.edlo.mydemoapp.MyDemoApp
 import com.edlo.mydemoapp.repository.local.TaipeiZooDB
+import com.edlo.mydemoapp.repository.local.TpzDbHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -11,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 @Database(entities = [PavilionData::class, PlantData::class], version = 1, exportSchema = false)
 abstract class TaipeiZooDB : RoomDatabase() {
     companion object {
-        val DB_NAME = "db_github_user"
+        val DB_NAME = "db_tpz"
         private var INSTANCE: TaipeiZooDB? = null
 
 //        private val MIGRATION_1_2 = object: Migration(1, 2) {

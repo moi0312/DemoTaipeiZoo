@@ -3,13 +3,11 @@ package com.edlo.mydemoapp.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.edlo.mydemoapp.repository.local.TaipeiZooDB
+import com.edlo.mydemoapp.repository.TPZRepositoryHelper
 import com.edlo.mydemoapp.repository.net.ApiResult
-import com.edlo.mydemoapp.repository.net.taipeizoo.ApiTaipeiZooHelper
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
 import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
 import com.edlo.mydemoapp.ui.base.BaseViewModel
-import com.edlo.mydemoapp.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.launch
@@ -18,8 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TaipeiZooViewModel @Inject constructor() : BaseViewModel() {
 
-    @Inject lateinit var apiTaipeiZooHelper: ApiTaipeiZooHelper
-    @Inject lateinit var taipeiZooDB: TaipeiZooDB
+    @Inject lateinit var tpzRepositoryHelper: TPZRepositoryHelper
 
     private val _currentSelectedPavilion = MutableLiveData<PavilionData>()
     val currentSelectedPavilion: LiveData<PavilionData> = _currentSelectedPavilion
@@ -48,88 +45,29 @@ class TaipeiZooViewModel @Inject constructor() : BaseViewModel() {
     private var plants: MutableLiveData<ArrayList<PlantData>> = MutableLiveData(ArrayList())
     fun getPlants(): LiveData<ArrayList<PlantData>> { return plants }
 
-    fun listPavilions(forceReload: Boolean = false) {
-        if (!forceReload && (pavilions.value != null && pavilions.value!!.size>0)) {
-            viewModelScope.launch {
-                postPavilionsFromLocal()
-            }
-            return
-        }
+    fun listPavilions() {
         onLoading.onNext(true)
         viewModelScope.launch {
-            var dao = taipeiZooDB.taipeiZooDao()
-            when (val apiResult = apiTaipeiZooHelper.listPavilions()) {
+            when (val apiResult = tpzRepositoryHelper.listPavilions()) {
                 is ApiResult.Success -> {
-                    val baseResponse = apiResult.body.result
-                    val pavilions = baseResponse.results
-                    dao.insertAllPavilions(pavilions)
-                    postPavilionsFromLocal()
-                }
-                is ApiResult.NetworkError -> {
-                    postPavilionsFromLocal()
-                }
-                is ApiResult.ApiError -> {
+                    pavilions.postValue(apiResult.body as ArrayList<PavilionData>?)
                     onLoading.onNext(false)
-                    Log.e(msg = "listData fail: ApiError -> code: ${apiResult.code}, ${apiResult.body}" )
                 }
-                is ApiResult.GenericError -> {
-                    onLoading.onNext(false)
-                    apiResult.error?.let {
-                        Log.e(msg = "listData fail: GenericError -> ${it.message}" )
-                    }
-                }
+                else -> { onLoading.onNext(false) }
             }
         }
     }
 
-    fun listPlants(forceReload: Boolean = false) {
-        if(!forceReload && (plants.value != null && plants.value!!.size>0)) {
-            viewModelScope.launch {
-                postPlantsFromLocal()
-            }
-            return
-        }
+    fun listPlants() {
         onLoading.onNext(true)
         viewModelScope.launch {
-            var dao = taipeiZooDB.taipeiZooDao()
-            when (val apiResult = apiTaipeiZooHelper.listPlants()) {
+            when (val apiResult = tpzRepositoryHelper.listPlants()) {
                 is ApiResult.Success -> {
-                    val baseResponse = apiResult.body.result
-                    dao.insertAllPlants(baseResponse.results)
-                    postPlantsFromLocal()
-                }
-                is ApiResult.NetworkError -> {
-                    postPlantsFromLocal()
-                }
-                is ApiResult.ApiError -> {
+                    plants.postValue(apiResult.body as ArrayList<PlantData>?)
                     onLoading.onNext(false)
-                    Log.e(msg = "listData fail: ApiError -> code: ${apiResult.code}, ${apiResult.body}" )
                 }
-                is ApiResult.GenericError -> {
-                    onLoading.onNext(false)
-                    apiResult.error?.let {
-                        Log.e(msg = "listData fail: GenericError -> ${it.message}" )
-                    }
-                }
+                else -> { onLoading.onNext(false) }
             }
-        }
-    }
-
-    private suspend fun postPavilionsFromLocal() {
-        viewModelScope.launch {
-            var dao = taipeiZooDB.taipeiZooDao()
-            val result = dao.getAllPavilions() as ArrayList<PavilionData>
-            pavilions.postValue(result)
-            onLoading.onNext(false)
-        }
-    }
-
-    private suspend fun postPlantsFromLocal() {
-        viewModelScope.launch {
-            var dao = taipeiZooDB.taipeiZooDao()
-            val result = currentSelectedPavilion.value?.let { dao.findPlantByLocation(it?.name) } as ArrayList<PlantData>
-            plants.postValue(result)
-            onLoading.onNext(false)
         }
     }
 }
