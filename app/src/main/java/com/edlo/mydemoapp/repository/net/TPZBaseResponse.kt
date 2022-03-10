@@ -1,4 +1,4 @@
-package com.edlo.mydemoapp.repository.net.taipeizoo.data
+package com.edlo.mydemoapp.repository.net
 
 import com.google.gson.annotations.SerializedName
 

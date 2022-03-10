@@ -16,14 +16,16 @@ class PavilionListFragment : BaseFragment<FragmentSimpleListBinding>() {
     private lateinit var viewModel: TaipeiZooViewModel
     private var adapter = PavilionsAdapter()
 
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar(getString(R.string.app_name))
         initView()
         initViewModelObserve()
-
-        viewModel.listPavilions()
     }
 
     private fun initView() {
@@ -43,6 +45,7 @@ class PavilionListFragment : BaseFragment<FragmentSimpleListBinding>() {
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner).get(TaipeiZooViewModel::class.java)
+        viewModel.listPavilions()
     }
 
     override fun initViewBinding(inflater: LayoutInflater,

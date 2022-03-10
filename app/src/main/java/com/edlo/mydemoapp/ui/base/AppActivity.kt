@@ -51,8 +51,9 @@ open class AppActivity : AppCompatActivity() {
             addToBackStack: Boolean = false, clearBackStack: Boolean = true) {
 
         val fragmentManager = this.supportFragmentManager
+        val tag = fragClass.canonicalName
         var fragment: AppFragment? =
-            fragmentManager.findFragmentByTag(fragClass.canonicalName) as AppFragment?
+            fragmentManager.findFragmentByTag(tag) as AppFragment?
         if (null == fragment) {
             fragment = try {
                 fragClass.newInstance()

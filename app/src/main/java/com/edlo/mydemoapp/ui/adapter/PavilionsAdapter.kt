@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.edlo.mydemoapp.databinding.ItemPavilionBinding
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PavilionData
 import com.edlo.mydemoapp.util.glideLoadUrl
 
 class PavilionsAdapter: EmptyViewSupportAdapter<PavilionsAdapter.PavilionIntroViewHolder>() {

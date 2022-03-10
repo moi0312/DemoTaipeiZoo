@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
+import com.edlo.mydemoapp.repository.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PlantData
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Database(entities = [PavilionData::class, PlantData::class], version = 1, exportSchema = false)

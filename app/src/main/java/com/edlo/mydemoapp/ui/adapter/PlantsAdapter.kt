@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.edlo.mydemoapp.databinding.ItemPlantBinding
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
+import com.edlo.mydemoapp.repository.data.PlantData
 import com.edlo.mydemoapp.util.glideLoadUrl
 
 class PlantsAdapter: EmptyViewSupportAdapter<PlantsAdapter.PlantViewHolder>() {

@@ -37,17 +37,20 @@ class PavilionDetailFragment : BaseFragment<FragmentPavilionDetailBinding>() {
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner).get(TaipeiZooViewModel::class.java)
-        initToolbar(getString(R.string.titlePavilion))
         viewModel.listPlants()
     }
 
     private fun initViewModelObserve() {
         viewModel.getPlants().observe(requireActivity() as LifecycleOwner, Observer {
-            adapter.data = it
+            it?.let {
+                adapter.data = it
+            }
         })
     }
 
     private fun initView() {
+        initToolbar(getString(R.string.titlePavilion))
+
         binding.listView.layoutManager = LinearLayoutManager(activity)
         binding.listView.adapter = adapter
         adapter.onClick = { index, data ->

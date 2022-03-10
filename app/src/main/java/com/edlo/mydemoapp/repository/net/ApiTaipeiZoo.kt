@@ -1,8 +1,8 @@
 package com.edlo.mydemoapp.repository.net.taipeizoo
 
 import com.edlo.mydemoapp.repository.TPZApiResponse
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
+import com.edlo.mydemoapp.repository.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PlantData
 import retrofit2.http.GET
 import retrofit2.http.Query
 

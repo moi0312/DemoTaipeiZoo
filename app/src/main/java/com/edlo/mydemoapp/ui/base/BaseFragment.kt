@@ -1,12 +1,10 @@
 package com.edlo.mydemoapp.ui.base
 
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
 import com.edlo.mydemoapp.R
@@ -25,6 +23,7 @@ abstract class BaseFragment<VDB: ViewBinding> : AppFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initViewModel()
     }
 
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +34,6 @@ abstract class BaseFragment<VDB: ViewBinding> : AppFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initViewModel()
     }
 
     fun initToolbar(title: String, toolbarId: Int = R.id.toolbar): Toolbar? {

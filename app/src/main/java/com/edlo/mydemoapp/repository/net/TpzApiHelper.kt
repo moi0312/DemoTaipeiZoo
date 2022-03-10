@@ -3,12 +3,11 @@ package com.edlo.mydemoapp.repository.net
 import com.edlo.mydemoapp.BuildConfig
 import com.edlo.mydemoapp.repository.TPZApiResponse
 import com.edlo.mydemoapp.repository.TPZResponse
+import com.edlo.mydemoapp.repository.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PlantData
 import com.edlo.mydemoapp.repository.local.TaipeiZooDB
 import com.edlo.mydemoapp.repository.net.taipeizoo.ApiTaipeiZoo
 import com.edlo.mydemoapp.repository.net.taipeizoo.ApiTaipeiZooService
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.TPZBaseResponse
 import com.edlo.mydemoapp.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,8 +18,6 @@ import javax.inject.Singleton
 
 @Singleton
 class TpzApiHelper @Inject constructor() {
-
-    @Inject lateinit var taipeiZooDB: TaipeiZooDB
 
     private var okHttpClient: OkHttpClient
     private var retrofit: Retrofit

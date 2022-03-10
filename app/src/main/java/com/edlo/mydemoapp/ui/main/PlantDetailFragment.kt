@@ -29,12 +29,13 @@ class PlantDetailFragment : BaseFragment<FragmentPlantDetailBinding>() {
 
     override fun initViewModel() {
         viewModel = ViewModelProvider(requireActivity() as ViewModelStoreOwner).get(TaipeiZooViewModel::class.java)
-        initToolbar(viewModel.currentSelectedPlant.value!!.nameCh)
     }
 
     private fun initViewModelObserve() { }
 
     private fun initView() {
+        initToolbar(viewModel.currentSelectedPlant.value!!.nameCh)
+
         viewModel.currentSelectedPlant.value?.let { item ->
             binding.txtName.text = "${item.nameCh}\n${item.nameLatin}\n${item.nameEn}"
             binding.txtInfo1.text = "${item.family}\n${item.genus}\n${getString(R.string.detailAlsoKnown, item.alsoKnown)}"

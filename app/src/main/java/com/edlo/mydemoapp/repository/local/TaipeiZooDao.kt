@@ -1,8 +1,8 @@
 package com.edlo.mydemoapp.repository.local
 
 import androidx.room.*
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
+import com.edlo.mydemoapp.repository.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PlantData
 
 @Dao
 interface TaipeiZooDao {

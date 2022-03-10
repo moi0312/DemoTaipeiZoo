@@ -1,7 +1,7 @@
 package com.edlo.mydemoapp.repository.local
 
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PavilionData
-import com.edlo.mydemoapp.repository.net.taipeizoo.data.PlantData
+import com.edlo.mydemoapp.repository.data.PavilionData
+import com.edlo.mydemoapp.repository.data.PlantData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,9 +19,14 @@ class TpzDbHelper @Inject constructor() {
             else null
     }
 
-    suspend fun listPlants(): List<PlantData>? {
-        return if(DB_ENABLED) dao.getAllPlants()
-            else null
+    suspend fun listPlants(location: String? = null): List<PlantData>? {
+        return if(DB_ENABLED) {
+            location?.let {
+                dao.findPlantByLocation(it)
+            } ?: run {
+                dao.getAllPlants()
+            }
+        } else null
     }
 
     suspend fun insertPavilions(list: List<PavilionData>): List<PavilionData>? {
@@ -31,10 +36,10 @@ class TpzDbHelper @Inject constructor() {
         } else null
     }
 
-    suspend fun insertPlants(list: List<PlantData>): List<PlantData>? {
+    suspend fun insertPlants(list: List<PlantData>, location: String? = null): List<PlantData>? {
         return if (DB_ENABLED) {
             dao.insertAllPlants(list)
-            listPlants()
+            listPlants(location)
         } else null
     }
 
